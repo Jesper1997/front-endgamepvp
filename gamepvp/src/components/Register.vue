@@ -2,12 +2,13 @@
     <form @submit="CheckSubmit">
         <div>
             <div class="alert alert-warning" v-bind:key="index" v-for="(error, index) in errors">{{error}}</div>
-            <h4>username</h4>
+            <h4>insert username</h4>
             <input type="text" v-model="name" name="name" placeholder="insery username">
-            <h4>password</h4>
+            <h4> insert password</h4>
             <input type="password" v-model="password" name="password" placeholder="Insert password">
+            <h4>insert the same password</h4>
+            <input type="password" v-model="passwordcheck" name="passwordcheck" placeholder="Insert the same password">
             <br>
-            <input v-on:click="loginUser" type="Submit" value="Login" class="btn">
             <input v-on:click="createAccount" value="Create Account" type="Submit" class="btn">
         </div>
     </form>
@@ -15,11 +16,12 @@
 
 <script>
 export default {
-    name: "Login",
+    name: "Register",
     data(){
         return{
             name: "",
             password: "",
+            passwordcheck: "",
             submit : false,
             errors :[]
         }
@@ -34,26 +36,27 @@ export default {
             if(!this.password){
                 this.errors.push("Password is requierd")
             }
+            if(!this.passwordcheck){
+                this.errors.push("the samepassword is requierd")
+            }
             if(this.submit)
             {
                 if(this.errors.length === 0){
                     console.log("hello")
-                    const login = {
+                    const newuser = {
                         Name: this.name,
-                        Pw: this.password
+                        Pw: this.password,
+                        PwCheck: this.passwordcheck
                     }
-                    this.$emit('Login',login);
+                    this.$emit('createaccount',newuser);
                     this.submit = false;
                 }
             }
 
         },
-        loginUser(){
+        createAccount(){
            this.submit = true;
         },
-        createAccount(){
-            this.$emit('createaccount');
-        }
 
     }
 }
